@@ -19,7 +19,7 @@ import cv2
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 bootstrap = Bootstrap(app)
-model = MobileNetV2(input_shape=(224,224,3), weights='imagenet')
+# model = MobileNetV2(input_shape=(224,224,3), weights='imagenet')
 
 
 class UploadForm(FlaskForm):
@@ -30,16 +30,16 @@ class UploadForm(FlaskForm):
     submit = SubmitField('Classify')
 
 
-def get_prediction(img_path):
-    img = cv2.imread(img_path)
-    img_resized = cv2.resize(img, (224, 224))
-    img_preprocessed = preprocess_input(img_resized)
-    img_reshaped = img_preprocessed.reshape((1, 224, 224, 3))
-    prediction = model.predict(img_reshaped)
-    decoded = decode_predictions(prediction)
-
-    top_3 = [(cat.capitalize(), round(prob*100, 2)) for (code, cat, prob) in decoded[0]][:3]
-    return top_3
+# def get_prediction(img_path):
+#     img = cv2.imread(img_path)
+#     img_resized = cv2.resize(img, (224, 224))
+#     img_preprocessed = preprocess_input(img_resized)
+#     img_reshaped = img_preprocessed.reshape((1, 224, 224, 3))
+#     prediction = model.predict(img_reshaped)
+#     decoded = decode_predictions(prediction)
+#
+#     top_3 = [(cat.capitalize(), round(prob*100, 2)) for (code, cat, prob) in decoded[0]][:3]
+#     return top_3
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -52,7 +52,7 @@ def home():
         )
         f.save(file_url)
         form = None
-        prediction = get_prediction(file_url)
+        prediction = [('a', 100)]#get_prediction(file_url)
     else:
         file_url = None
         prediction = None
