@@ -19,7 +19,8 @@ import cv2
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 bootstrap = Bootstrap(app)
-model = MobileNetV2(input_shape=(224,224,3), weights='imagenet')
+model = MobileNetV2(input_shape=(224,224,3), weights=None)
+model.load_weights('static/model_weights.h5')
 
 
 class UploadForm(FlaskForm):
